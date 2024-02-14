@@ -3,7 +3,7 @@ from turboaz.items import TurboazItem
 
 
 class TurbospiderSpider(scrapy.Spider):
-    custom_settings = {"CLOSESPIDER_PAGECOUNT": 55, "CONCURRENT_REQUEST": 1}
+    custom_settings = {"CLOSESPIDER_PAGECOUNT": 1, "CONCURRENT_REQUEST": 1}
     name = "turbospider"
     allowed_domains = ["turbo.az"]
     # start_urls = ["https://turbo.az"]
@@ -39,7 +39,7 @@ class TurbospiderSpider(scrapy.Spider):
         car_item["owner_location"] = response.css(
             ".product-owner__info .product-owner__info-region ::text"
         ).get()
-        car_item["announcement_num"] = response.css(".product-actions__id ::text").get()
+        car_item["car_id"] = response.css(".product-actions__id ::text").get()
         car_item["post_renewed"] = response.css(
             ".product-statistics__i-text ::text"
         ).get()
@@ -50,7 +50,7 @@ class TurbospiderSpider(scrapy.Spider):
             "//div[@class='product-properties__i']/label[@for='ad_region']"
             "/following-sibling::span/text()"
         ).get()
-        car_item["mark"] = table_columns.xpath(
+        car_item["brand"] = table_columns.xpath(
             "//div[@class='product-properties__i']/label[@for='ad_make_id']"
             "/following-sibling::span/a/text()"
         ).get()

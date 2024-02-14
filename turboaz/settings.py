@@ -65,6 +65,7 @@ ROBOTSTXT_OBEY = True
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    "turboaz.pipelines.TurboazPipeline": 300,
+   "turboaz.pipelines.SaveToPostgresPipeline": 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
