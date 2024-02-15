@@ -3,10 +3,8 @@ from turboaz.items import TurboazItem
 
 
 class TurbospiderSpider(scrapy.Spider):
-    """
-    if you want to limit the amount of pages use custom settings and give it a value
-    it will NOT stop instantly
-    """
+    # if you want to limit the amount of pages use custom settings and give it a value
+    # it will NOT stop instantly
     # custom_settings = {"CLOSESPIDER_PAGECOUNT": 55, "CONCURRENT_REQUEST": 1}
 
     name = "turbospider"
