@@ -1,4 +1,5 @@
-cars.csv
-
+*.csv
+*.json
+venv
 __pycache__
 *.py[cod]

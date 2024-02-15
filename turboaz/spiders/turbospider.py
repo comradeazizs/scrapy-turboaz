@@ -3,14 +3,18 @@ from turboaz.items import TurboazItem
 
 
 class TurbospiderSpider(scrapy.Spider):
-    custom_settings = {"CLOSESPIDER_PAGECOUNT": 1, "CONCURRENT_REQUEST": 1}
+    """
+    if you want to limit the amount of pages use custom settings and give it a value
+    it will NOT stop instantly
+    """
+    # custom_settings = {"CLOSESPIDER_PAGECOUNT": 55, "CONCURRENT_REQUEST": 1}
+
     name = "turbospider"
     allowed_domains = ["turbo.az"]
-    # start_urls = ["https://turbo.az"]
-    start_urls = ["https://turbo.az/autos?q%5Bmake%5D%5B%5D=3"]  # TODO dynamic search
+    start_urls = ["https://turbo.az/autos?q%5Bmake%5D%5B%5D=3"]
 
     def parse(self, response):
-        cars = response.css(  # TODO relative path
+        cars = response.css(
             ".page-content .products-container .tz-container:nth-child(5) .products .products-i"
         )
 
@@ -33,9 +37,17 @@ class TurbospiderSpider(scrapy.Spider):
             ".product-price__i.product-price__i--bold ::text"
         ).get()
         car_item["price_azn"] = ""  # will get a value in Pipeline
-        car_item["owner_name"] = response.css(
+        car_item["price_eur"] = ""
+
+        value = response.css(
             ".product-owner__info .product-owner__info-name ::text"
         ).get()
+        if value is None:  # if sold by a dealer owner_name is dealer
+            value = response.css(
+                ".product-shop__owner-right .product-shop__owner-name ::text"
+            ).get()
+        car_item["owner_name"] = value
+
         car_item["owner_location"] = response.css(
             ".product-owner__info .product-owner__info-region ::text"
         ).get()
